@@ -1,0 +1,47 @@
+* qthelp.el
+
+** Introduction
+
+=qthelp.el= is a small package that provides Qt documentation for the symbol at
+point when in C++ mode, using =lsp-mode= to resolve the symbol type.
+
+The package uses Qt Assistant in remote mode or optionally online help using
+=eww= for the symbol under the cursor. I chose =eww= so the focus wouldn't move
+away from the buffer making interaction faster. Besides, having the help buffer
+in Emacs allows some quick and interesting interaction.
+
+
+** Requirements
+
+The package uses =lsp-mode= to resolve the symbol type, so it is needed as a
+dependency.
+
+Note that if the custom variable =qthelp-online-help= is not set to =t=, you
+need to have QtAssistant installed on the system.
+
+
+** Custom Variables
+
+*** =qthelp-online-help=
+
+Default value is =nil=, which means use qtassistant to display help. Set to =t=
+if you want to use online help or qtassistant is not available in the system.
+
+
+** Configuration
+
+If you make a symbolic link from =qthelp.el= to =~/.emacs.d/lisp/qthelp.el= the
+following can be used as an example configuration.
+
+
+#+BEGIN_SRC emacs-lisp
+(use-package qthelp
+  :load-path "~/.emacs.d/lisp"
+  :after lsp-mode
+  :bind
+  (:map lsp-mode-map
+    ("C-c h" . qthelp))
+  :custom
+  ;;(qthelp-online-help nil))
+  (qthelp-online-help t))
+#+END_SRC
